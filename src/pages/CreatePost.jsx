@@ -1,8 +1,15 @@
 import { useState } from 'react'
 import './CreatePost.css'
-
-const CreatePost = () => {
-
+import { supabase } from '../client'
+const CreatePost =  () => {
+    const createPost = async (event) => {
+        event.preventDefault()
+        await supabase
+        .from('Posts')
+        .insert({title: post.title, author: post.author, description: post.description})
+        .select()
+        window.location = "/";
+    }
     const [post, setPost] = useState({title: "", author: "", description: ""})
 
     const handleChange = (event) => {
@@ -30,7 +37,7 @@ const CreatePost = () => {
                 <textarea rows="5" cols="50" id="description" name="description" onChange={handleChange}>
                 </textarea>
                 <br/>
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Submit" onClick={createPost} />
             </form>
         </div>
     )
