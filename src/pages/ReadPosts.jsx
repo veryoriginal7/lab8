@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import Card from '../components/Card'
 import { supabase } from '../client'
-const ReadPosts = (props) => {
+const ReadPosts = ({props}) => {
 
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
         const fetchPosts = async () => {
             const {data} = await supabase
-            .from('Posts')
+            .from('crewPost')
             .select()
             .order('created_at', { ascending: true })
             setPosts(data)
@@ -21,16 +21,17 @@ const ReadPosts = (props) => {
             {
                 posts && posts.length > 0 ?
                 [...posts]
-                .sort((a, b) => a.id - b.id)
+                .sort((a, b) => b.id - a.id)
                 .map((post,index) => 
                     <Card 
                         key={post.id}
                         id={post.id} 
-                        title={post.title}
-                        author={post.author}
-                        description={post.description}
+                        name={post.name}
+                        class={post.class}
+                        race={post.race}
+                        lv={post.lv}
                     />
-                ) : <h2>{'No Challenges Yet 😞'}</h2>
+                ) : <h2>{'No Character Yet '}</h2>
             }
         </div>  
     )
